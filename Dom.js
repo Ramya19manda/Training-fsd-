@@ -63,23 +63,47 @@
 // document.body.appendChild(image);
 
 
-
 let form = document.querySelector("form");
+
 let username = document.getElementById("uName");
-let mail = document.getElementById("uMail");
-let psw = document.getElementById("uPass");
+let password = document.getElementById("uPass");
+let show = document.getElementById("show");
+let check = document.getElementById("check");
+let gender = document.getElementsByName("gender"); // Use `getElementsByName` for radio buttons.
 
-form.addEventListener("submit",(event)=>{
-    event.preventDefault();
-    let uname=username.value;
-    let uemail=mail.value;
-    let upass=psw.value;
-    let userDetails={
-        uname,uemail,upass
-    };
-console.log(userDetails);
-localStorage.setItem("userdata",JSON.stringify(userDetails))
-
+check.addEventListener("click", (event) => {
+    if (event.target.checked == true) {
+        password.setAttribute("type", "text");
+        show.innerText = "Hide password";
+    } else {
+        password.setAttribute("type", "password");
+        show.innerText = "Show password";
+    }
 });
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let un = username.value;
+    let up = password.value;
+    let gen = "";
+
+    // Loop through radio buttons and find the selected one
+    for (let i = 0; i < gender.length; i++) {
+        if (gender[i].checked) {
+            gen = gender[i].value;
+            break;
+        }
+    }
+
+    let userDetails = {
+        username: un,
+        password: up,
+        gender: gen,
+    };
+
+    console.log(userDetails);
+    sessionStorage.setItem("userdata", JSON.stringify(userDetails));
+});
+
 
 
